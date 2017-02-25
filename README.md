@@ -34,6 +34,10 @@ Rekey.rekey(bad) == good
 
 ## Installation
 
+```ruby
+gem install rekey.rb
+```
+
 Require and include like this:
 
 ```ruby
