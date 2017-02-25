@@ -1,25 +1,24 @@
 require 'rekey/rekey'
 require 'rekey/from'
 require 'rekey/array_of'
+require 'rekey/hash_of'
 require 'rekey/schema'
 
-describe Rekey do
+include Rekey
 
-  From = Rekey::From
-  ArrayOf = Rekey::ArrayOf
-  Schema = Rekey::Schema
+describe Rekey do
 
   let(:before) {
     {
       posts: [
         {
           id: 11,
-          comments: [
-            {
+          comments: {
+            22 => {
               id: 22,
               author: 44
             }
-          ]
+          }
         }
       ]
     }
@@ -30,12 +29,12 @@ describe Rekey do
       articles: [
         {
           id: 11,
-          opinions: [
-            {
+          opinions: {
+            22 => {
               id: 22,
               writer: 44
             }
-          ]
+          }
         }
       ]
     }
@@ -44,7 +43,7 @@ describe Rekey do
   let(:schema) {
     Schema.new({
       articles: ArrayOf.new(:posts, Schema.new({
-        opinions: ArrayOf.new(:comments, Schema.new({
+        opinions: HashOf.new(:comments, Schema.new({
           writer: From.new(:author)
         }))
       }))
