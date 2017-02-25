@@ -3,7 +3,7 @@ require 'rekey/from'
 require 'rekey/array_of'
 require 'rekey/schema'
 
-describe Rekey, '.rekey' do
+describe Rekey do
 
   From = Rekey::From
   ArrayOf = Rekey::ArrayOf
@@ -51,9 +51,12 @@ describe Rekey, '.rekey' do
     })
   }
 
-  it 'rekeys' do
-    actual = Rekey.rekey(before, schema)
-    expect(actual).to eq after
+  it 'can rekey by passing schema to the lib' do
+    expect(Rekey.rekey(before, schema)).to eq after
+  end
+
+  it 'can rekey by calling rekey on schema' do
+    expect(schema.rekey(before)).to eq after
   end
 
 end
