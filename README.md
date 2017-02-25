@@ -2,21 +2,17 @@
 
 Rename keys of deeply nested hash based on schema.
 
-Assume we have the following hash...
+
+## Example
 
 ```ruby
+# From...
 bad = { posts: [{ id: 11, comments: [{ id: 22, author: 44 }] }] }
-```
 
-...and we want to rename `:posts` => `:articles`, `:comments` => `:opinions`, and `:author` => `:writer`, so that we instead get the following hash...
-
-```ruby
+# to...
 good = { articles: [{ id: 11, opinions: [{ id: 22, writer: 44 }] }] }
-```
 
-We then construct the following schema...
-
-```ruby
+# using...
 schema = Schema.new({
   articles: ArrayOf.new(:posts, Schema.new({
     opinions: ArrayOf.new(:comments, Schema.new({
@@ -24,24 +20,21 @@ schema = Schema.new({
     }))
   }))
 })
-```
 
-...then we can move from the input structure to the output structure by calling...
+# by calling...
+schema.rekey(bad)
+# or...
+Rekey.rekey(bad, schema)
 
-```ruby
-schema.rekey(obj)
-
-# Or like this..
-Rekey.rekey(obj, schema)
-```
-
-Either way, it means that...
-
-```ruby
+# which means that...
 schema.rekey(bad) == good
+Rekey.rekey(bad) == good
 ```
 
-...by the way I assumed we have required and included like this...
+
+## Installation
+
+Require and include like this:
 
 ```ruby
 require 'rekey/rekey'
